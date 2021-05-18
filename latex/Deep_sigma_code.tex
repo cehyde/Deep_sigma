@@ -1,0 +1,91 @@
+\documentclass[12pt,amsmath,letter,notitlepage]{revtex4-1}
+%\documentclass[12pt,amsmath,preprintnumbers,notitlepage]{revtex4-1}
+%
+\usepackage{url}
+\usepackage{hyperref} %[pagebackref]{hyperref}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{caption}
+%\captionsetup[figure]{justification=justified}
+%\usepackage{pdflscape}
+\usepackage{enumitem}
+ %%   \setlist{nolistsep} % or \setlist{noitemsep} to leave space around whole list
+    %%\setlist[2]{noitemsep} % sets the itemsep and parsep for all level two lists to 0
+    %%\setenumerate{noitemsep} % sets no itemsep for enumerate lists only
+%\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{color}
+%\usepackage[dvips]{color}
+%
+\newcommand{\xBj}{x_{\textrm{Bj}}}
+\newcommand{\GeVSq}{\,\textrm{GeV}^2}  
+\newcommand{\diracslash}[1]{\hbox to 0pt{\slash}#1}
+%
+\renewcommand{\baselinestretch}{0.96}
+%
+%\baselineskip 12pt
+\font\tsf=cmssbx10 scaled 1200    %Bold San-Serif 12
+\parskip 12pt plus 2pt           %space between paragraphs
+
+\begin{document}
+\pagestyle{headings}
+
+\title{Deep Virtual $\pi\pi$ Production Simulation Pseudo-Code}
+\author{Charles E. Hyde}
+\affiliation{Old Dominion University, Norfolk VA 23529}
+\date{\today}
+\maketitle
+
+\begin{enumerate}
+\item Event Generation
+\begin{enumerate}
+\item Generate beam particle four-vectors {$k^\mu=$\tt k4Beam}, {$P^\mu$\tt P4Beam}.\\
+Construct light-cone 4-vectors $n_e^\mu$, $\widetilde n_e^\mu$.\\
+\begin{equation}
+n^\mu =\alpha\left[ k^\mu - \frac{m_e^2/(k\cdot P)}{1+ \sqrt{1-\delta_e}}\, P^\mu\right], 
+\quad \delta_e = \frac{m_e^2 M_p^2}{(k\cdot P)^2}
+\quad
+\widetilde n^\mu = \widetilde\alpha\left[-k^\mu+()P^\mu\right]
+\end{equation}
+
+Construct lab based transverse unit vectors $X_\text{Det}^\mu$, $Y_\text{Det}^\mu$:\\
+\begin{equation}
+X\cdot X = -1 = Y\cdot Y, \qquad\qquad X\cdot n = 0, \qquad \text{etc.} \qquad
+\epsilon_{\mu\nu\rho\sigma}n_e^\mu X_\text{Det}^\nu Y_\text{Det}^\rho  \widetilde n_e^\sigma = 1
+\end{equation}
+\item Generate Invariants: $Q^2$, $x_B$, $\Phi_e$;
+\item Construct four-vectors: {\tt k4Scat}, {\tt q4Virt} and basis unit vectors
+$$ n_q^\mu, \qquad \widetilde n_q^\mu \qquad X_q^\mu \qquad Y_q^\mu$$
+with constraint $Y_q\cdot k' = 0$.
+\item Generate Two-Pion mass-squared $M_{\pi\pi}^2$;\\
+Generate invariant momentum transfer squared $t_p$.\\
+Generate Invariant azimuthal angle $\Phi_{\pi\pi}$ (value is from 0 to $2\pi$, meaning to be defined below);\\
+Construct all remaining final state four vectors;\\
+Generate two-pion rest-frame variables $\cos\theta_+$ and $\phi_+$.
+\item Compute invariant flux and phase space factors.
+\end{enumerate}
+\item
+Construct amplitude for $e+p \to e + \pi^+ + N^\ast$
+with a virtual $\pi^-$ exchange coupled to $\pi^- p \to \pi^- p$ amplitudes of SAID. \\
+Four-vector {\tt p4Virt = q4Virt$-$p4piPlus}.\\
+Define final state $\pi^- p$ Center-of-Mass frame and determine pion scattering angle.\\
+Sum over SAID $\pi N$ amplitudes up to $F_{17}(1700)$.\\
+Use helicity basis for nucleon spin.
+\item
+Construct amplitude for 
+$
+e+p \to e + \pi^- + N^*
+$
+with a virtual $\pi^+$ exchange coupled to $\pi^+ p \to \pi^+ p$ amplitudes of SAID.
+\item
+Construct Schilling and Wolf style amplitude for diffractive production in $(I,J)$ = (0,0) and (1,1)
+channels
+\end{enumerate}
+
+\end{document}
+
+
+\begin{verbatim}
+
+\end{verbatim}
