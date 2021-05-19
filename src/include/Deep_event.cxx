@@ -92,42 +92,6 @@ int LeviCivita4vec(TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3
 } // LeviCivita4Vec
 
 
- int LeviCivita4vec_old(double vec1[4], double vec2[4], double vec3[4], double *vec4out)
-{
-    /** @brief
-           * Construct a 4-vector contraction
-     *\f{align}{
-     *{\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma\\
-     * \epsilon_{0123} &= 1\\
-     * \f}
-     */
-    int ndim = 4;
-    int yes  = 0;
-    double civita = 1.0;
-    for (int ii=0; ii<ndim; ii++) {
-        vec4out[ii] = 0.0;
-        for (int jj=0; jj<ndim; jj++) {
-            if (jj!=ii){
-                for (int kk=0; kk<ndim; kk++) {
-                    if((kk!=jj)&&(kk!=ii)){
-                        for (int ll=0; ll<ndim; ll++) {
-                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
-                                vec4out[ii] += civita*vec1[jj]*vec2[kk]*vec3[ll];
-                                civita*=-1.0;
-                            } // ll!= {kk, jj, ii}
-                        } // ll for loop
-                        civita*=-1.0;
-                    } //kk!={jj, ii}
-                } // kk for loop
-                civita *= -1.0;
-            } //jj!=ii
-        } // jj for loop
-        civita *= -1.0;
-    } // ii for loop
-    yes = 1;
-    return yes;
-} // LeviCivita4Vec_old
-
 //double LeviCivitaScalar(double *vec1, double *vec2, double *vec3, double &vec4);
 
 double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4){
@@ -212,23 +176,7 @@ int EventLightCone(){
     temp4     *=(-MIon*MIon/((1.+sqrt_One_d)*(k4Beam.Dot(P4Beam))));
     n4Tilde_e += temp4;
     n4Tilde_e *= norm;
-    /*
-     deprecated
-    vec1[0] = n4_e.E();
-    vec1[1] = n4_e.Px();
-    vec1[2] = n4_e.Py();
-    vec1[3] = n4_e.Pz();
-    vec2[0] = n4Tilde_e.E();
-    vec2[1] = n4Tilde_e.Px();
-    vec2[2] = n4Tilde_e.Py();
-    vec2[3] = n4Tilde_e.Pz();
-    vec3[0] = Y4_Det.E();
-    vec3[1] = Y4_Det.Px();
-    vec3[2] = Y4_Det.Py();
-    vec3[3] = Y4_Det.Pz();
-    // Check sign of Y4_e and X4_e!!
-    LeviCivita4vec(vec1,vec2,vec3,vec4out);
-    */
+
     LeviCivita4vec(n4_e,n4Tilde_e,Y4_Det,vec4out);
     X4_e.SetPxPyPzE(-vec4out[1],-vec4out[2],-vec4out[3],vec4out[0]);
     norm = X4_e.M2();
