@@ -42,7 +42,12 @@ int Deep_pi_pi_MC(){
         printf("Invalid initialization \n");
         return -1;
     }
-    EventLightCone();
+    n4_e0 = n4_e;
+    n4Tilde_e0 = n4Tilde_e;
+    X4_e0 = X4_e;
+    Y4_e0 = Y4_e;
+    // call an event generation loop instead of this single
+    // EventLightCone();
     return 1;
 } // main
 
@@ -50,6 +55,7 @@ int Deep_pi_pi_MC(){
  *  Read input file to initialize Monte-Carlo event generation.
  */
 int Init(char *inFile){
+    Y4_Det.SetPxPyPzE(0.0,1.0,0.0,0.0);
     FILE  * inF;
     inF=fopen(inFile,"r");
     if (inF==NULL) {
@@ -150,8 +156,7 @@ int Init(char *inFile){
     //  Setup up nominal beam light-cone vectors and transverse coordinates
     k4Beam = k4Beam0;
     P4Beam = P4Beam0;
-    Y4_Det.SetPxPyPzE(0.0,1.0,0.0,0.0);
-//    EventLightCone();
+    EventLightCone();
     n4_e0      = n4_e;
     n4Tilde_e0 = n4Tilde_e;
     X4_e0      = X4_e;

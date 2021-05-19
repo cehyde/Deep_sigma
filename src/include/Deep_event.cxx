@@ -19,15 +19,18 @@
  * Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e.
  *
  *  \f{align}{
- *  n_e^\mu &=  \displaystyle \left[k^\mu\left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right]
- *    \left/\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]\right.,
- *    \qquad\qquad k^2 = m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2 \\
- *  \widetilde n_e^\mu &= \left[P^\mu 
+ *  n_e^\mu &=  \displaystyle \frac{\left[k^\mu\left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right]
+ *    }{\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]
+ *    \nonumber \\
+ *    \qquad\qquad k^2 &= m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2
+ *    \nonumber \\
+ *  \widetilde n_e^\mu &= \displaystyle \left[P^\mu
  *                    - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu
  *                     \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \\
- *  n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \\
- *  n_e\cdot \widetilde n_e &= 1 \\
- *  Transverse vectors \\
+ *  n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \\
+ *  n_e\cdot \widetilde n_e &= 1
+ *  \nonumber \\
+ *  \intertext{Transverse vectors}
  *  {\tt Y4Det}^\mu  = [0,0,1,0] = up in Detector frame
  *  [X4_{e0}]_\sigma   =\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \\
  *  X4_e^\mu         = X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \\
@@ -41,7 +44,55 @@
  * The transverse 4-vectors \f$ X_e^\mu,\, Y_e^\mu\f$ are defined assuming
  * neither incident beam can ever be in the vertical direction.
  */
-int LeviCivita4vec(double vec1[4], double vec2[4], double vec3[4], double *vec4out)
+int LeviCivita4vec(TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3, double *vec4out)
+{
+    /** @brief
+           * Construct a 4-vector contraction
+     *\f{align}{
+     {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma
+     \nonumber  \\
+     * \epsilon_{0123} &= 1
+     * \f}
+     */
+    int ndim = 4;
+    int mmod = ndim-1;
+    int yes  = 0;
+    int iii,jjj,kkk,lll;
+    double civita = 1.0;
+    double temp = 0.0;
+    for (int ii=0; ii<ndim; ii++) {
+        vec4out[ii] = 0.0;
+        iii = (ii+mmod)%ndim;
+        for (int jj=0; jj<ndim; jj++) {
+            if (jj!=ii){
+                jjj = (jj+mmod)%ndim;
+                for (int kk=0; kk<ndim; kk++) {
+                    if((kk!=jj)&&(kk!=ii)){
+                        kkk = (kk+mmod)%ndim;
+                        for (int ll=0; ll<ndim; ll++) {
+                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
+                                lll = (ll+mmod)%ndim;
+                                vec4out[ii] += civita*vec1[jjj]*vec2[kkk]*vec3[lll];
+                                /*
+                                printf("(ii,jj,kk,ll,jjj,kkk,lll)=(%2d,%2d,%2d,%2d,%2d,%2d,%2d), civita = %5.2f \n",ii,jj,kk,ll,jjj,kkk,lll,civita);
+                                 */
+                               // civita*=-1.0;
+                            } // ll!= {kk, jj, ii}
+                        } // ll for loop
+                        civita*=-1.0;
+                    } //kk!={jj, ii}
+                } // kk for loop
+                civita *= -1.0;
+            } //jj!=ii
+        } // jj for loop
+        //civita *= -1.0;
+    } // ii for loop
+    yes = 1;
+    return yes;
+} // LeviCivita4Vec
+
+
+ int LeviCivita4vec_old(double vec1[4], double vec2[4], double vec3[4], double *vec4out)
 {
     /** @brief
            * Construct a 4-vector contraction
@@ -75,7 +126,7 @@ int LeviCivita4vec(double vec1[4], double vec2[4], double vec3[4], double *vec4o
     } // ii for loop
     yes = 1;
     return yes;
-} // LeviCivita4Vec
+} // LeviCivita4Vec_old
 
 //double LeviCivitaScalar(double *vec1, double *vec2, double *vec3, double &vec4);
 
@@ -84,21 +135,36 @@ double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVe
        * Construct a the scaler anti-symmetric contraction of four space-time vectors
  *\f{align}{
  *{\tt Scalar} &= \epsilon_{\mu \nu \rho \sigma} {\tt vec4_1}^\mu {\tt vec4_2}^\nu {\tt vec4_3}^\rho {\tt vec4_4}^\sigma\\
- * \epsilon_{0123} &= 1\\
+ * \epsilon_{0123} &= 1. \qquad\text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1\\
  * \f}
+ * Note from TLorentzVector documentation
+ The components of TLorentzVector can also accessed by index:
+  ~~~ {.cpp}
+    xx = v(0);       or     xx = v[0];
+    yy = v(1);              yy = v[1];
+    zz = v(2);              zz = v[2];
+    tt = v(3);              tt = v[3];
+  ~~~
  */
     double Scalar=0.0;
     int ndim = 4;
+    int mmod = ndim-1;
     double term;
     double civita = 1.0;
+    int iii, jjj,kkk,lll;
     for (int ii=0; ii<ndim; ii++) {
+        iii = (ii+mmod)%ndim;
         for (int jj=0; jj<ndim; jj++) {
             if (jj!=ii){
+                jjj = (jj+mmod)%ndim;
                 for (int kk=0; kk<ndim; kk++) {
                     if((kk!=jj)&&(kk!=ii)){
+                        kkk = (kk+mmod)%ndim;
                         for (int ll=0; ll<ndim; ll++) {
+
                             if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
-                                Scalar += civita*vec4_1[ii]*vec4_2[jj]*vec4_3[kk]*vec4_4[ll];
+                                lll = (ll+mmod)%ndim;
+                                Scalar += civita*vec4_1[iii]*vec4_2[jjj]*vec4_3[kkk]*vec4_4[lll];
                                 civita*=-1.0;
                             } // ll!= {kk, jj, ii}
                         } // ll for loop
@@ -110,6 +176,7 @@ double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVe
         } // jj for loop
         civita *= -1.0;
     } // ii for loop
+    // \text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1
     return Scalar;
 }
 
@@ -119,7 +186,8 @@ int EventLightCone(){
     //  n4Tilde = (PBeam+betaPr*k4Beam)/norm2;
     //  n4\cdot n4 = 0 = n4Tilde\cdot n4Tilde
     //  n4\cdot n4Tilde = 1;
-    sqrtDL      = mLepton*MIon/(k4Beam.Dot(P4Beam));
+    k_dot_P     = k4Beam.Dot(P4Beam);
+    sqrtDL      = mLepton*MIon/(k_dot_P);
     deltaL      = sqrtDL*sqrtDL;
 
     double sqrt_One_d  = sqrt(1.0-deltaL);
@@ -136,8 +204,7 @@ int EventLightCone(){
     double vec1[nSpaceTime], vec2[nSpaceTime], vec3[nSpaceTime], vec4out[nSpaceTime];
     n4_e       = k4Beam;
     n4_e      *= (1.0+sqrt_One_d);
-    temp4      = P4Beam;
-    temp4     *= -sqrtDL;
+    temp4      = (-mLepton*mLepton/k_dot_P)*P4Beam;
     n4_e      += temp4;
     n4_e      *= norm/2.0; //** n4_e \f$= n_e^\mu \f$
     n4Tilde_e  = P4Beam;
@@ -145,6 +212,8 @@ int EventLightCone(){
     temp4     *=(-MIon*MIon/((1.+sqrt_One_d)*(k4Beam.Dot(P4Beam))));
     n4Tilde_e += temp4;
     n4Tilde_e *= norm;
+    /*
+     deprecated
     vec1[0] = n4_e.E();
     vec1[1] = n4_e.Px();
     vec1[2] = n4_e.Py();
@@ -159,6 +228,8 @@ int EventLightCone(){
     vec3[3] = Y4_Det.Pz();
     // Check sign of Y4_e and X4_e!!
     LeviCivita4vec(vec1,vec2,vec3,vec4out);
+    */
+    LeviCivita4vec(n4_e,n4Tilde_e,Y4_Det,vec4out);
     X4_e.SetPxPyPzE(-vec4out[1],-vec4out[2],-vec4out[3],vec4out[0]);
     norm = X4_e.M2();
     if (norm>=0.0) {
@@ -170,7 +241,7 @@ int EventLightCone(){
     vec3[1] = X4_e.Px();
     vec3[2] = X4_e.Py();
     vec3[3] = X4_e.Pz();
-    LeviCivita4vec(vec1,vec3,vec2,vec4out);
+    LeviCivita4vec(n4_e,X4_e,n4Tilde_e,vec4out);
     Y4_e.SetPxPyPzE(-vec4out[1],-vec4out[2],-vec4out[3],vec4out[0]);
     
     
@@ -178,12 +249,15 @@ int EventLightCone(){
         printf("Lepton mass squared = %10.3g GeV2 \n", k4Beam.M2());
         printf("n4_e^2 = %10.3g = ?0? = %10.3g = n4Tilde_e^2 \n", n4_e.M2(), n4Tilde_e.M2() );
         printf("n4_e * n4Tilde_e = %10.7f =? 1 \n", n4_e.Dot(n4Tilde_e));
-        /*
-        n4_e.Print();      printf(" = n4_e^{0,1,2,3}      \n");
-        n4Tilde_e.Print(); printf(" = n4Tilde_e^{0,1,2,3} \n");
-        X4_e.Print();      printf(" = X4_e^{0,1,2,3},     X4_e*X4_e = %8.5f \n", X4_e*X4_e);
-        Y4_e.Print();      printf(" = Y4_e^{0,1,2,3},     Y4_e*Y4_e = %8.5f \n", Y4_e*Y4_e);
-         */
+        
+        printf(" n4_e^{1,2,3,0}      ="); n4_e.Print();
+        printf(" n4Tilde_e^{1,2,3,0} ="); n4Tilde_e.Print();
+        printf("X4_e*X4_e=%8.5f, X4_e*n4_e=%8.5f, X4_e*n4Tilde_e = %8.5f, X4_e*Y4_e = %8.5f \n",
+               X4_e.Dot(X4_e), X4_e.Dot(n4_e), X4_e.Dot(n4Tilde_e), X4_e.Dot(Y4_e));
+        printf(" X4_e^{1,2,3,0} = "); X4_e.Print();
+        printf("Y4_e*Y4_e=%8.5f, Y4_e*n4_e=%8.5f, Y4_e*n4Tilde_e = %8.5f \n",
+               Y4_e.Dot(Y4_e), Y4_e.Dot(n4_e), Y4_e.Dot(n4Tilde_e));
+        printf(" Y4_e^{1,2,3,0} = "); Y4_e.Print();
         first = false;
     }
     return 1;
