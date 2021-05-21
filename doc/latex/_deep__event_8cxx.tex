@@ -9,16 +9,11 @@ File generates a set of event four-\/vectors.
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{_deep__event_8cxx_a59a1251df47ecad94e478812fa3df4d1}{Levi\+Civita4vec}} (TLorentz\+Vector vec1, TLorentz\+Vector vec2, TLorentz\+Vector vec3, double $\ast$vec4out)
-\begin{DoxyCompactList}\small\item\em Initialize lightcone vectors n4\+\_\+e, n4\+Tilde\+\_\+e, X4\+\_\+e, Y4\+\_\+e. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{_deep__event_8cxx_a3787d4fb6ee608d526724eb1a96b4f28}{Levi\+Civita4vec\+\_\+old}} (double vec1\mbox{[}4\mbox{]}, double vec2\mbox{[}4\mbox{]}, double vec3\mbox{[}4\mbox{]}, double $\ast$vec4out)
-\item 
-double \mbox{\hyperlink{_deep__event_8cxx_a0f43468217e9509857fbac36979decb1}{Levi\+Civita\+Scalar}} (TLorentz\+Vector vec4\+\_\+1, TLorentz\+Vector vec4\+\_\+2, TLorentz\+Vector vec4\+\_\+3, TLorentz\+Vector vec4\+\_\+4)
-\item 
-\mbox{\Hypertarget{_deep__event_8cxx_aef7afda743b97967e360e6b61ee44cb0}\label{_deep__event_8cxx_aef7afda743b97967e360e6b61ee44cb0}} 
-int {\bfseries Event\+Light\+Cone} ()
+\begin{DoxyCompactList}\small\item\em Construct a 4-\/vector contraction. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{_deep__event_8cxx_a33ddf7a38dcda05441673f3a5acc850b}{Levi\+Civita\+Scalar}} (TLorentz\+Vector vec4\+\_\+1, TLorentz\+Vector vec4\+\_\+2, TLorentz\+Vector vec4\+\_\+3, TLorentz\+Vector vec4\+\_\+4) int Event\+Light\+Cone()
 \item 
 int \mbox{\hyperlink{_deep__event_8cxx_a0cf25c5323c6cb149bd6bfb540131fc6}{Get\+\_\+\+Event}} (int i\+Evt)
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{_deep__event_8cxx_a0cf25c5323c6cb149bd6bfb540131fc6}{Get\+\_\+\+Event()}} generates ep-\/$>$e p pi pi events uniformly in phase space. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{DoxyCompactItemize}
 
 
 \doxysubsubsection{Detailed Description}
@@ -33,11 +28,9 @@ File contains event-\/by-\/event generation functions for $e p \to e\textnormal{
 \doxyparagraph{\texorpdfstring{Get\_Event()}{Get\_Event()}}
 {\footnotesize\ttfamily int Get\+\_\+\+Event (\begin{DoxyParamCaption}\item[{int}]{i\+Evt }\end{DoxyParamCaption})}
 
+\mbox{\hyperlink{_deep__event_8cxx_a0cf25c5323c6cb149bd6bfb540131fc6}{Get\+\_\+\+Event()}} generates ep-\/$>$e p pi pi events uniformly in phase space \[\left\{Q^2, y=q\cdot P/(k\cdot P), \phi_e, M_{\pi\pi}^2, \cos(\theta_{\pi\pi}^{CM}), \phi_{\pi\pi}^{CM}, \cos\theta_{\pi^+}^{Rest}, \phi_{\pi^+}^{Rest} \right\} \] Only basis 4-\/vectors e.\+g. $ n_q, \widetilde n_q, X_q, Y_q$ are boosted, all other variables are invariants.
 
-
-\mbox{\hyperlink{_deep__event_8cxx_a0cf25c5323c6cb149bd6bfb540131fc6}{Get\+\_\+\+Event()}} generates ep-\/$>$e p pi pi events uniformly in phase space. 
-
-\[\left\{Q^2, y=q\cdot P/(k\cdot P), \phi_e, M_{\pi\pi}^2, \cos(\theta_{\pi\pi}^{CM}), \phi_{\pi\pi}^{CM}, \cos\theta_{\pi^+}^{Rest}, \phi_{\pi^+}^{Rest} \right\} \] Only basis 4-\/vectors e.\+g. $ n_q, \widetilde n_q, X_q, Y_q$ are boosted, all other variables are invariants. After smearing the incident beam momenta, re-\/define the lepton-\/\+Ion light-\/cone vectors n4\+\_\+e, n4\+Tilde\+\_\+e, X4\+\_\+e, Y4\+\_\+e
+After smearing the incident beam momenta, re-\/define the lepton-\/\+Ion light-\/cone vectors n4\+\_\+e, n4\+Tilde\+\_\+e, X4\+\_\+e, Y4\+\_\+e
 
 Scattered lepton four-\/vector k4\+Scat = $k\textnormal{\textquotesingle}$.
 
@@ -77,21 +70,21 @@ Similar method to construct four vectors of the final state pions
 
 
 
-Initialize lightcone vectors n4\+\_\+e, n4\+Tilde\+\_\+e, X4\+\_\+e, Y4\+\_\+e. 
+Construct a 4-\/vector contraction. 
 
-\begin{align} n_e^\mu &= \displaystyle \left[k^\mu\left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right] \left/\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]\right., \qquad\qquad k^2 = m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2 \nonumber \\ \widetilde n_e^\mu &= \left[P^\mu - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \\ n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \\ n_e\cdot \widetilde n_e &= 1 \nonumber \\ \intertext{Transverse vectors} {\tt Y4Det}^\mu = [0,0,1,0] = up in Detector frame [X4_{e0}]_\sigma =\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \\ X4_e^\mu = X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \\ [Y4_e]_\sigma = \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\ \end{align} If beam emmitance values in input file are positive, incident beam 4-\/vectors $k^\mu, P^\mu$ are generated with gaussian longitudinal and transverse emmittance relative to nominal input values $k_0^\mu, P_0^\mu$.
-
-The transverse 4-\/vectors $ X_e^\mu,\, Y_e^\mu$ are defined assuming neither incident beam can ever be in the vertical direction. Construct a 4-\/vector contraction \begin{align} {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma \nonumber \\ \epsilon_{0123} &= 1 \end{align}\mbox{\Hypertarget{_deep__event_8cxx_a3787d4fb6ee608d526724eb1a96b4f28}\label{_deep__event_8cxx_a3787d4fb6ee608d526724eb1a96b4f28}} 
-\index{Deep\_event.cxx@{Deep\_event.cxx}!LeviCivita4vec\_old@{LeviCivita4vec\_old}}
-\index{LeviCivita4vec\_old@{LeviCivita4vec\_old}!Deep\_event.cxx@{Deep\_event.cxx}}
-\doxyparagraph{\texorpdfstring{LeviCivita4vec\_old()}{LeviCivita4vec\_old()}}
-{\footnotesize\ttfamily int Levi\+Civita4vec\+\_\+old (\begin{DoxyParamCaption}\item[{double}]{vec1\mbox{[}4\mbox{]},  }\item[{double}]{vec2\mbox{[}4\mbox{]},  }\item[{double}]{vec3\mbox{[}4\mbox{]},  }\item[{double $\ast$}]{vec4out }\end{DoxyParamCaption})}
-
-Construct a 4-\/vector contraction \begin{align} *{\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma\\ \epsilon_{0123} &= 1\\ \end{align}\mbox{\Hypertarget{_deep__event_8cxx_a0f43468217e9509857fbac36979decb1}\label{_deep__event_8cxx_a0f43468217e9509857fbac36979decb1}} 
+\begin{align} {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma \nonumber \\ \epsilon_{0123} &= 1 \end{align} \mbox{\Hypertarget{_deep__event_8cxx_a33ddf7a38dcda05441673f3a5acc850b}\label{_deep__event_8cxx_a33ddf7a38dcda05441673f3a5acc850b}} 
 \index{Deep\_event.cxx@{Deep\_event.cxx}!LeviCivitaScalar@{LeviCivitaScalar}}
 \index{LeviCivitaScalar@{LeviCivitaScalar}!Deep\_event.cxx@{Deep\_event.cxx}}
 \doxyparagraph{\texorpdfstring{LeviCivitaScalar()}{LeviCivitaScalar()}}
 {\footnotesize\ttfamily double Levi\+Civita\+Scalar (\begin{DoxyParamCaption}\item[{TLorentz\+Vector}]{vec4\+\_\+1,  }\item[{TLorentz\+Vector}]{vec4\+\_\+2,  }\item[{TLorentz\+Vector}]{vec4\+\_\+3,  }\item[{TLorentz\+Vector}]{vec4\+\_\+4 }\end{DoxyParamCaption})}
+
+Event\+Light\+Cone\+: Initialize lightcone vectors n4, n4\+Tilde \begin{align*} n4 &= ({\tt k4Beam} - \beta*{\tt P4Beam})/norm\\ {\tt n4Tilde}&= ({\tt P4Beam}+\beta\textnormal{\textquotesingle} *{\tt k4Beam})/norm2; \\ n4\cdot n4 &= 0 = n4Tilde\cdot n4Tilde \\ n4\cdot n4Tilde &= 1 \\ { k\_dot\_P} &= k4Beam.Dot(P4Beam); \\ {\tt sqrtDL} &= mLepton*MIon/{\tt (k_dot_P)}; \\ {\tt deltaL} &= sqrtDL*sqrtDL = \delta_L; \\ \end{align*}
+
+Initialize lightcone vectors n4\+\_\+e, n4\+Tilde\+\_\+e, X4\+\_\+e, Y4\+\_\+e.
+
+\begin{align} n_e^\mu &= \displaystyle \frac{\left[ k^\mu \left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right] }{\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]} \nonumber \\ \qquad\qquad k^2 &= m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2 \nonumber \\ \widetilde n_e^\mu &= \displaystyle \left[P^\mu - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \nonumber\\ n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \nonumber\\ n_e\cdot \widetilde n_e &= 1 \\ \intertext{Transverse vectors} {\tt Y4Det} &= [0,0,1,0] = Y4_\text{Det}^\mu = \text{ ``up in Detector frame\textnormal{\textquotesingle}\textnormal{\textquotesingle}} \nonumber\\ [X4_{e0}]_\sigma &=\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \nonumber \\ X4_e^\mu &= X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \nonumber\\ [Y4_e]_\sigma &= \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\ \end{align} If beam emmitance values in input file are positive, incident beam 4-\/vectors $k^\mu, P^\mu$ are generated with gaussian longitudinal and transverse emmittance relative to nominal input values $k_0^\mu, P_0^\mu$.
+
+The transverse 4-\/vectors $ X_e^\mu,\, Y_e^\mu$ are defined assuming neither incident beam can ever be in the vertical direction.
 
 Construct a the scaler anti-\/symmetric contraction of four space-\/time vectors \begin{align} *{\tt Scalar} &= \epsilon_{\mu \nu \rho \sigma} {\tt vec4_1}^\mu {\tt vec4_2}^\nu {\tt vec4_3}^\rho {\tt vec4_4}^\sigma\\ \epsilon_{0123} &= 1. \qquad\text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1\\ \end{align} Note from TLorentz\+Vector documentation The components of TLorentz\+Vector can also accessed by index\+: 
 \begin{DoxyCode}{0}

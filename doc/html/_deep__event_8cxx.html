@@ -82,17 +82,11 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a59a1251df47ecad94e478812fa3df4d1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_deep__event_8cxx.html#a59a1251df47ecad94e478812fa3df4d1">LeviCivita4vec</a> (TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3, double *vec4out)</td></tr>
-<tr class="memdesc:a59a1251df47ecad94e478812fa3df4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e.  <a href="_deep__event_8cxx.html#a59a1251df47ecad94e478812fa3df4d1">More...</a><br /></td></tr>
+<tr class="memdesc:a59a1251df47ecad94e478812fa3df4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a 4-vector contraction.  <a href="_deep__event_8cxx.html#a59a1251df47ecad94e478812fa3df4d1">More...</a><br /></td></tr>
 <tr class="separator:a59a1251df47ecad94e478812fa3df4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3787d4fb6ee608d526724eb1a96b4f28"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_deep__event_8cxx.html#a3787d4fb6ee608d526724eb1a96b4f28">LeviCivita4vec_old</a> (double vec1[4], double vec2[4], double vec3[4], double *vec4out)</td></tr>
-<tr class="separator:a3787d4fb6ee608d526724eb1a96b4f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f43468217e9509857fbac36979decb1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_deep__event_8cxx.html#a0f43468217e9509857fbac36979decb1">LeviCivitaScalar</a> (TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4)</td></tr>
-<tr class="separator:a0f43468217e9509857fbac36979decb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef7afda743b97967e360e6b61ee44cb0"><td class="memItemLeft" align="right" valign="top"><a id="aef7afda743b97967e360e6b61ee44cb0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>EventLightCone</b> ()</td></tr>
-<tr class="separator:aef7afda743b97967e360e6b61ee44cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33ddf7a38dcda05441673f3a5acc850b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_deep__event_8cxx.html#a33ddf7a38dcda05441673f3a5acc850b">LeviCivitaScalar</a> (TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4) int EventLightCone()</td></tr>
+<tr class="separator:a33ddf7a38dcda05441673f3a5acc850b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cf25c5323c6cb149bd6bfb540131fc6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_deep__event_8cxx.html#a0cf25c5323c6cb149bd6bfb540131fc6">Get_Event</a> (int iEvt)</td></tr>
-<tr class="memdesc:a0cf25c5323c6cb149bd6bfb540131fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="_deep__event_8cxx.html#a0cf25c5323c6cb149bd6bfb540131fc6" title="Get_Event() generates ep-&gt;e p pi pi events uniformly in phase space.">Get_Event()</a> generates ep-&gt;e p pi pi events uniformly in phase space.  <a href="_deep__event_8cxx.html#a0cf25c5323c6cb149bd6bfb540131fc6">More...</a><br /></td></tr>
 <tr class="separator:a0cf25c5323c6cb149bd6bfb540131fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -114,12 +108,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>EventLightCone</b> ()<
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p><a class="el" href="_deep__event_8cxx.html#a0cf25c5323c6cb149bd6bfb540131fc6" title="Get_Event() generates ep-&gt;e p pi pi events uniformly in phase space.">Get_Event()</a> generates ep-&gt;e p pi pi events uniformly in phase space. </p>
-<p class="formulaDsp">
+<p><a class="el" href="_deep__event_8cxx.html#a0cf25c5323c6cb149bd6bfb540131fc6">Get_Event()</a> generates ep-&gt;e p pi pi events uniformly in phase space </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\[\left\{Q^2, y=q\cdot P/(k\cdot P), \phi_e, M_{\pi\pi}^2, \cos(\theta_{\pi\pi}^{CM}), \phi_{\pi\pi}^{CM}, \cos\theta_{\pi^+}^{Rest}, \phi_{\pi^+}^{Rest} \right\} \]" src="form_18.png" width="346" height="18"/>
 </p>
-<p> Only basis 4-vectors e.g. <img class="formulaInl" alt="$ n_q, \widetilde n_q, X_q, Y_q$" src="form_19.png" width="71" height="14"/> are boosted, all other variables are invariants. </p>
+<p> Only basis 4-vectors e.g. <img class="formulaInl" alt="$ n_q, \widetilde n_q, X_q, Y_q$" src="form_19.png" width="71" height="14"/> are boosted, all other variables are invariants.</p>
 <p>After smearing the incident beam momenta, re-define the lepton-Ion light-cone vectors n4_e, n4Tilde_e, X4_e, Y4_e</p>
 <p>Scattered lepton four-vector k4Scat = <img class="formulaInl" alt="$k'$" src="form_20.png" width="10" height="10"/>.</p>
 <p class="formulaDsp">
@@ -206,63 +198,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>EventLightCone</b> ()<
       </table>
 </div><div class="memdoc">
 
-<p>Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e. </p>
+<p>Construct a 4-vector contraction. </p>
 <p class="formulaDsp">
-<img class="formulaDsp" alt="\begin{align} n_e^\mu &amp;= \displaystyle \left[k^\mu\left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right] \left/\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]\right., \qquad\qquad k^2 = m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2 \nonumber \\ \widetilde n_e^\mu &amp;= \left[P^\mu - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \\ n_e\cdot n_e &amp;= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \\ n_e\cdot \widetilde n_e &amp;= 1 \nonumber \\ \intertext{Transverse vectors} {\tt Y4Det}^\mu = [0,0,1,0] = up in Detector frame [X4_{e0}]_\sigma =\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \\ X4_e^\mu = X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \\ [Y4_e]_\sigma = \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\ \end{align}" src="form_44.png" width="599" height="296"/>
-</p>
-<p> If beam emmitance values in input file are positive, incident beam 4-vectors <img class="formulaInl" alt="$k^\mu, P^\mu$" src="form_14.png" width="35" height="13"/> are generated with gaussian longitudinal and transverse emmittance relative to nominal input values <img class="formulaInl" alt="$k_0^\mu, P_0^\mu$" src="form_15.png" width="35" height="15"/>.</p>
-<p>The transverse 4-vectors <img class="formulaInl" alt="$ X_e^\mu,\, Y_e^\mu$" src="form_16.png" width="43" height="14"/> are defined assuming neither incident beam can ever be in the vertical direction. </p>
-<p>Construct a 4-vector contraction </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\begin{align} {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &amp;= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma \nonumber \\ \epsilon_{0123} &amp;= 1 \end{align}" src="form_45.png" width="361" height="33"/>
 </p>
-
+ 
 </div>
 </div>
-<a id="a3787d4fb6ee608d526724eb1a96b4f28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3787d4fb6ee608d526724eb1a96b4f28">&#9670;&nbsp;</a></span>LeviCivita4vec_old()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int LeviCivita4vec_old </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vec1</em>[4], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vec2</em>[4], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vec3</em>[4], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>vec4out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Construct a 4-vector contraction </p><p class="formulaDsp">
-<img class="formulaDsp" alt="\begin{align} *{\tt vec4out}_\mu &amp;= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma\\ \epsilon_{0123} &amp;= 1\\ \end{align}" src="form_17.png" width="315" height="51"/>
-</p>
-
-</div>
-</div>
-<a id="a0f43468217e9509857fbac36979decb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f43468217e9509857fbac36979decb1">&#9670;&nbsp;</a></span>LeviCivitaScalar()</h2>
+<a id="a33ddf7a38dcda05441673f3a5acc850b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33ddf7a38dcda05441673f3a5acc850b">&#9670;&nbsp;</a></span>LeviCivitaScalar()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,6 +242,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>EventLightCone</b> ()<
         </tr>
       </table>
 </div><div class="memdoc">
+<p>EventLightCone: Initialize lightcone vectors n4, n4Tilde </p><p class="formulaDsp">
+<img class="formulaDsp" alt="\begin{align*} n4 &amp;= ({\tt k4Beam} - \beta*{\tt P4Beam})/norm\\ {\tt n4Tilde}&amp;= ({\tt P4Beam}+\beta' *{\tt k4Beam})/norm2; \\ n4\cdot n4 &amp;= 0 = n4Tilde\cdot n4Tilde \\ n4\cdot n4Tilde &amp;= 1 \\ { k\_dot\_P} &amp;= k4Beam.Dot(P4Beam); \\ {\tt sqrtDL} &amp;= mLepton*MIon/{\tt (k_dot_P)}; \\ {\tt deltaL} &amp;= sqrtDL*sqrtDL = \delta_L; \\ \end{align*}" src="form_52.png" width="255" height="125"/>
+</p>
+<p>Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e.</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\begin{align} n_e^\mu &amp;= \displaystyle \frac{\left[ k^\mu \left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right] }{\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]} \nonumber \\ \qquad\qquad k^2 &amp;= m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2 \nonumber \\ \widetilde n_e^\mu &amp;= \displaystyle \left[P^\mu - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \nonumber\\ n_e\cdot n_e &amp;= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \nonumber\\ n_e\cdot \widetilde n_e &amp;= 1 \\ \intertext{Transverse vectors} {\tt Y4Det} &amp;= [0,0,1,0] = Y4_\text{Det}^\mu = \text{ ``up in Detector frame''} \nonumber\\ [X4_{e0}]_\sigma &amp;=\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \nonumber \\ X4_e^\mu &amp;= X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \nonumber\\ [Y4_e]_\sigma &amp;= \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\ \end{align}" src="form_49.png" width="429" height="308"/>
+</p>
+<p> If beam emmitance values in input file are positive, incident beam 4-vectors <img class="formulaInl" alt="$k^\mu, P^\mu$" src="form_14.png" width="35" height="13"/> are generated with gaussian longitudinal and transverse emmittance relative to nominal input values <img class="formulaInl" alt="$k_0^\mu, P_0^\mu$" src="form_15.png" width="35" height="15"/>.</p>
+<p>The transverse 4-vectors <img class="formulaInl" alt="$ X_e^\mu,\, Y_e^\mu$" src="form_16.png" width="43" height="14"/> are defined assuming neither incident beam can ever be in the vertical direction.</p>
 <p>Construct a the scaler anti-symmetric contraction of four space-time vectors </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\begin{align} *{\tt Scalar} &amp;= \epsilon_{\mu \nu \rho \sigma} {\tt vec4_1}^\mu {\tt vec4_2}^\nu {\tt vec4_3}^\rho {\tt vec4_4}^\sigma\\ \epsilon_{0123} &amp;= 1. \qquad\text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1\\ \end{align}" src="form_46.png" width="409" height="51"/>
 </p>

@@ -37,7 +37,7 @@ TRandom3 ran3;
  * \f$ k_0^\mu,\quad P_0^\mu,\quad Y^\mu = [0,0,1,0] = {\rm Vertical Up} \f$
  */
 TLorentzVector k4Beam0, P4Beam0;
-TLorentzVector Y4det(0.0,0.0,1.0,0.0);
+TLorentzVector Y4det;
 /** Event-by-event kinematic four-vectors
  *\f[ k^\mu,\, P^\mu,\, k^{\prime\mu},\, q^\mu = (k=k')^\mu,\, P_{\pi\pi}^\mu,\, P^{\prime\mu},
  *   \Delta^\mu = (P'-P)^\mu, p^\mu_{\pi^+}, p^\mu_{\pi^-}
@@ -84,7 +84,7 @@ double mLepton, MIon, mPion;
 //  Beam Emittance arrays
 double emitt_e[3], emitt_i[3];//  Geometrical x,y emittance and sigma(p)
 double betaIP_e[2], betaIP_i[2]; //  x,y beta-functions at IP
-bool  eSmear(true), iSmear(true);
+bool  eSmear(false), iSmear(false);
 int nEvents;
 
 // Monte Carlo bounds

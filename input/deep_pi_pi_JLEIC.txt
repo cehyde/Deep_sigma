@@ -4,6 +4,6 @@ kBeam(x,y,z), epsN(x,y)(m), sigmaP/P, betaIP(x,y)(m) electron or muon
 PBeam(x,y,z), epsN(x,y)(m), sigmaP/P betaIP(x,y)(m) proton, neutron or nucleon
 -4.998 0.000  99.875  0.9e-6  0.18e-6  3.0e-4  0.105 0.021 proton
 Q2Min, Q2Max, yMin, yMax, nEvents
-4.000  40.000  0.1  0.9  10000
+4.000  40.000  0.1  0.9  1
 MpipiMin  MpipiMax  cs(thCM)Min cs(thCM)Max
 0.000  1.000         0.500     1.000

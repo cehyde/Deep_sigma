@@ -3,8 +3,7 @@
   \item {Deep\_event.cxx}
     \subitem {Get\_Event}, \hyperpage{7}
     \subitem {LeviCivita4vec}, \hyperpage{8}
-    \subitem {LeviCivita4vec\_old}, \hyperpage{9}
-    \subitem {LeviCivitaScalar}, \hyperpage{9}
+    \subitem {LeviCivitaScalar}, \hyperpage{8}
   \item {Deep\_pi\_pi\_MC.hpp}
     \subitem {mLepton}, \hyperpage{6}
 
@@ -29,10 +28,8 @@
 
   \item {LeviCivita4vec}
     \subitem {Deep\_event.cxx}, \hyperpage{8}
-  \item {LeviCivita4vec\_old}
-    \subitem {Deep\_event.cxx}, \hyperpage{9}
   \item {LeviCivitaScalar}
-    \subitem {Deep\_event.cxx}, \hyperpage{9}
+    \subitem {Deep\_event.cxx}, \hyperpage{8}
 
   \indexspace
 

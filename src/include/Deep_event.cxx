@@ -15,154 +15,67 @@
 #ifndef Deep_event_h
 #define Deep_event_h
 
-/** @brief
- * Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e.
- *
- *  \f{align}{
- *  n_e^\mu &=  \displaystyle \frac{\left[k^\mu\left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right]
- *    }{\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]
- *    \nonumber \\
- *    \qquad\qquad k^2 &= m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2
- *    \nonumber \\
- *  \widetilde n_e^\mu &= \displaystyle \left[P^\mu
- *                    - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu
- *                     \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right. \\
- *  n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber \\
- *  n_e\cdot \widetilde n_e &= 1
- *  \nonumber \\
- *  \intertext{Transverse vectors}
- *  {\tt Y4Det}^\mu  = [0,0,1,0] = up in Detector frame
- *  [X4_{e0}]_\sigma   =\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho \\
- *  X4_e^\mu         = X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} } \\
- *  [Y4_e]_\sigma      = \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\
- * \f}
- * If beam emmitance values in input file are positive, incident beam 4-vectors
- * \f$k^\mu, P^\mu\f$
- * are generated with gaussian longitudinal and transverse emmittance relative to nominal input values
- * \f$k_0^\mu, P_0^\mu\f$.
- *
- * The transverse 4-vectors \f$ X_e^\mu,\, Y_e^\mu\f$ are defined assuming
- * neither incident beam can ever be in the vertical direction.
- */
-int LeviCivita4vec(TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3, double *vec4out)
-{
-    /** @brief
-           * Construct a 4-vector contraction
-     *\f{align}{
-     {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma
-     \nonumber  \\
-     * \epsilon_{0123} &= 1
-     * \f}
-     */
-    int ndim = 4;
-    int mmod = ndim-1;
-    int yes  = 0;
-    int iii,jjj,kkk,lll;
-    double civita = 1.0;
-    double temp = 0.0;
-    for (int ii=0; ii<ndim; ii++) {
-        vec4out[ii] = 0.0;
-        iii = (ii+mmod)%ndim;
-        for (int jj=0; jj<ndim; jj++) {
-            if (jj!=ii){
-                jjj = (jj+mmod)%ndim;
-                for (int kk=0; kk<ndim; kk++) {
-                    if((kk!=jj)&&(kk!=ii)){
-                        kkk = (kk+mmod)%ndim;
-                        for (int ll=0; ll<ndim; ll++) {
-                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
-                                lll = (ll+mmod)%ndim;
-                                vec4out[ii] += civita*vec1[jjj]*vec2[kkk]*vec3[lll];
-                                /*
-                                printf("(ii,jj,kk,ll,jjj,kkk,lll)=(%2d,%2d,%2d,%2d,%2d,%2d,%2d), civita = %5.2f \n",ii,jj,kk,ll,jjj,kkk,lll,civita);
-                                 */
-                               // civita*=-1.0;
-                            } // ll!= {kk, jj, ii}
-                        } // ll for loop
-                        civita*=-1.0;
-                    } //kk!={jj, ii}
-                } // kk for loop
-                civita *= -1.0;
-            } //jj!=ii
-        } // jj for loop
-        //civita *= -1.0;
-    } // ii for loop
-    yes = 1;
-    return yes;
-} // LeviCivita4Vec
-
-
-//double LeviCivitaScalar(double *vec1, double *vec2, double *vec3, double &vec4);
-
-double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4){
-/** @brief
-       * Construct a the scaler anti-symmetric contraction of four space-time vectors
- *\f{align}{
- *{\tt Scalar} &= \epsilon_{\mu \nu \rho \sigma} {\tt vec4_1}^\mu {\tt vec4_2}^\nu {\tt vec4_3}^\rho {\tt vec4_4}^\sigma\\
- * \epsilon_{0123} &= 1. \qquad\text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1\\
- * \f}
- * Note from TLorentzVector documentation
- The components of TLorentzVector can also accessed by index:
-  ~~~ {.cpp}
-    xx = v(0);       or     xx = v[0];
-    yy = v(1);              yy = v[1];
-    zz = v(2);              zz = v[2];
-    tt = v(3);              tt = v[3];
-  ~~~
- */
-    double Scalar=0.0;
-    int ndim = 4;
-    int mmod = ndim-1;
-    double term;
-    double civita = 1.0;
-    int iii, jjj,kkk,lll;
-    for (int ii=0; ii<ndim; ii++) {
-        iii = (ii+mmod)%ndim;
-        for (int jj=0; jj<ndim; jj++) {
-            if (jj!=ii){
-                jjj = (jj+mmod)%ndim;
-                for (int kk=0; kk<ndim; kk++) {
-                    if((kk!=jj)&&(kk!=ii)){
-                        kkk = (kk+mmod)%ndim;
-                        for (int ll=0; ll<ndim; ll++) {
-
-                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
-                                lll = (ll+mmod)%ndim;
-                                Scalar += civita*vec4_1[iii]*vec4_2[jjj]*vec4_3[kkk]*vec4_4[lll];
-                                civita*=-1.0;
-                            } // ll!= {kk, jj, ii}
-                        } // ll for loop
-                        civita*=-1.0;
-                    } //kk!={jj, ii}
-                } // kk for loop
-                civita *= -1.0;
-            } //jj!=ii
-        } // jj for loop
-        civita *= -1.0;
-    } // ii for loop
-    // \text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1
-    return Scalar;
-}
+int LeviCivita4vec(TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3, double *vec4out);
+double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4);
 
 int EventLightCone(){
-    //  Initialize lightcone vectors n4, n4Tilde
-    //  n4 = (k4Beam - beta*PBeam)/norm1
-    //  n4Tilde = (PBeam+betaPr*k4Beam)/norm2;
-    //  n4\cdot n4 = 0 = n4Tilde\cdot n4Tilde
-    //  n4\cdot n4Tilde = 1;
-    k_dot_P     = k4Beam.Dot(P4Beam);
-    sqrtDL      = mLepton*MIon/(k_dot_P);
-    deltaL      = sqrtDL*sqrtDL;
-
+    /** @brief EventLightCone:  Initialize lightcone vectors n4, n4Tilde
+    *\f{align*} n4 &= ({\tt k4Beam} - \beta*{\tt P4Beam})/norm\\
+    {\tt n4Tilde}&= ({\tt P4Beam}+\beta' *{\tt k4Beam})/norm2; \\
+      n4\cdot n4 &= 0 = n4Tilde\cdot n4Tilde \\
+     n4\cdot n4Tilde &= 1 \\
+    { k\_dot\_P}     &= k4Beam.Dot(P4Beam); \\
+    {\tt sqrtDL} &= mLepton*MIon/{\tt (k_dot_P)}; \\
+    {\tt deltaL}      &= sqrtDL*sqrtDL = \delta_L; \\
+     \f}
+     */
+    
+    /**
+     * Initialize lightcone vectors n4_e, n4Tilde_e, X4_e, Y4_e.
+     *
+     *  \f{align}{
+     *  n_e^\mu &=  \displaystyle \frac{\left[ k^\mu \left(1+\sqrt{1-\delta_l}\right) - \frac{m_l^2}{k\cdot P} P^\mu \right]
+     *    }{\left[2 \sqrt{(k\cdot P)(1-\delta_l)} \right]}
+     *    \nonumber \\
+     *    \qquad\qquad k^2 &= m_l^2, \qquad \delta_l = \left[\frac{m_l M_{\rm Ion}}{k\cdot P}\right]^2
+     *    \nonumber \\
+     *  \widetilde n_e^\mu &= \displaystyle \left[P^\mu
+     *                    - \frac{M_{\rm Ion}^2}{(k\cdot P)\left(1+\sqrt{1-\delta_l}\right)}k^\mu
+     *                     \right]\left/\frac{1}{\sqrt{(k\cdot P)(1-\delta_l)}} \right.  \nonumber\\
+     *  n_e\cdot n_e &= 0 = \widetilde n_e\cdot \widetilde n_e \nonumber  \nonumber\\
+     *  n_e\cdot \widetilde n_e &= 1
+     *  \\
+     *  \intertext{Transverse vectors}
+     *  {\tt Y4Det}  &= [0,0,1,0] = Y4_\text{Det}^\mu = \text{ ``up in Detector frame''} \nonumber\\
+     *  [X4_{e0}]_\sigma   &=\epsilon_{\mu\nu\rho\sigma}n4_e^\mu n4Tilde_e^\nu Y4_Det^\rho
+     *   \nonumber \\
+     *  X4_e^\mu         &= X4_{e0}^\mu/\sqrt{-X4_{e0}\cdot X4_{e0} }
+     *   \nonumber\\
+     *  [Y4_e]_\sigma    &= \epsilon_{\mu\nu\rho\sigma}n4_e^\mu X4_e^\nu n4Tilde_e^\rho\\
+     * \f}
+     * If beam emmitance values in input file are positive, incident beam 4-vectors
+     * \f$k^\mu, P^\mu\f$
+     * are generated with gaussian longitudinal and transverse emmittance relative to nominal input values
+     * \f$k_0^\mu, P_0^\mu\f$.
+     *
+     * The transverse 4-vectors \f$ X_e^\mu,\, Y_e^\mu\f$ are defined assuming
+     * neither incident beam can ever be in the vertical direction.
+     */
+    k_dot_P = k4Beam.Dot(P4Beam);
+    sqrtDL = mLepton*MIon/(k_dot_P);
+    deltaL = sqrtDL*sqrtDL;
     double sqrt_One_d  = sqrt(1.0-deltaL);
     double norm        = 1.0/(sqrt(k4Beam.Dot(P4Beam))*sqrt_One_d);
-    TLorentzVector   temp4, X4,Y4,Z4,T4;
+    TLorentzVector   temp4;
+    /*
+    TLorentzVector X4,Y4,Z4,T4;
     X4.SetPxPyPzE(1.0,0.0,0.0,0.0);
     Y4.SetPxPyPzE(0.0,1.0,0.0,0.0);
     Z4.SetPxPyPzE(0.0,0.0,1.0,0.0);
     T4.SetPxPyPzE(0.0,0.0,0.0,1.0);
     printf("Test of LeviCivita Contraction = %13.6f  \n",
            LeviCivitaScalar(T4,X4,Y4,Z4));
+     */
     static  bool first = true;
     static int nSpaceTime=4;
     double vec1[nSpaceTime], vec2[nSpaceTime], vec3[nSpaceTime], vec4out[nSpaceTime];
@@ -211,14 +124,15 @@ int EventLightCone(){
     return 1;
 }
 
-/**  @brief Get_Event() generates ep->e p pi pi events uniformly in phase space
-*  \f[\left\{Q^2, y=q\cdot P/(k\cdot P), \phi_e, M_{\pi\pi}^2, \cos(\theta_{\pi\pi}^{CM}), \phi_{\pi\pi}^{CM},
-      * \cos\theta_{\pi^+}^{Rest}, \phi_{\pi^+}^{Rest} \right\}
-      * \f]
- *  Only basis 4-vectors e.g. \f$ n_q, \widetilde n_q, X_q, Y_q\f$ are boosted,
- *  all other variables are invariants.
-*/
+
 int Get_Event(int iEvt){
+    /**  @brief Get_Event() generates ep->e p pi pi events uniformly in phase space
+    *  \f[\left\{Q^2, y=q\cdot P/(k\cdot P), \phi_e, M_{\pi\pi}^2, \cos(\theta_{\pi\pi}^{CM}), \phi_{\pi\pi}^{CM},
+          * \cos\theta_{\pi^+}^{Rest}, \phi_{\pi^+}^{Rest} \right\}
+          * \f]
+     *  Only basis 4-vectors e.g. \f$ n_q, \widetilde n_q, X_q, Y_q\f$ are boosted,
+     *  all other variables are invariants.
+    */
 
     // Generate incident electron
     double  pperp, k3Pr_perp, denom;
@@ -231,12 +145,15 @@ int Get_Event(int iEvt){
     double px, py, pz, pSmear, n0, nx,ny,nz;
     double EIon, ELepton;
     double csPiPiCM, phiPiPiCM;
+    const int nSpaceTime=4;
+    double vec4out[nSpaceTime];
     TVector3 boostCM;
     static bool first = true;
     
 //      double ETot, betaCMx, betaCMy, betaCMz;
     k4Beam = k4Beam0;
     P4Beam = P4Beam0;
+    //  This is done in top-level driver
     if(first){
         EventLightCone();
         n4_e0 = n4_e;
@@ -245,6 +162,7 @@ int Get_Event(int iEvt){
         Y4_e0 = Y4_e;
         first = false;
     }
+    //
     if(iEvt==0) printf("eSmear, iSmear = %d, %d, k4Beam0.M2()=%f \n", eSmear, iSmear, k4Beam0.M2());
     if (eSmear) {
         pSmear = ran3.Gaus(1.0,emitt_e[2]);
@@ -264,7 +182,6 @@ int Get_Event(int iEvt){
         k4Beam.SetPxPyPzE(px,py,pz,ELepton);
         // printf("Longitudinal smear factor(e) = %10.6f \n", pSmear);
     }
-    P4Beam = P4Beam0;
     if (iSmear) {
         pSmear = ran3.Gaus(1.0,emitt_i[2]);
         P4Beam *= pSmear;
@@ -301,7 +218,7 @@ int Get_Event(int iEvt){
     }
     //  Generate Electron Scattering Kinematics
     psf      = (Q2Max-Q2Min)*(yMax - yMin)*TwoPi;
-    k_dot_P  = k4Beam.Dot(P4Beam);
+//    k_dot_P  = k4Beam.Dot(P4Beam);
     sMinusM2 = 2.0*k_dot_P;
     s_e      = sMinusM2 + MIon*MIon + mLepton*mLepton;
     Q2       = Q2Min + (Q2Max-Q2Min)*ran3.Rndm();
@@ -318,8 +235,8 @@ int Get_Event(int iEvt){
      *
      * \f{align}{
      * \left[\begin{array}{r} Q^2 + 2 m_l^2 \\ 2(k\cdot P)(1-y) \end{array}\right]
-     *  &= 2 
-     * \left[\begin{array}{rr} k\cdot \widetilde n_e,&\ k\cdot n_e \\ 
+     *  &= 2
+     * \left[\begin{array}{rr} k\cdot \widetilde n_e,&\ k\cdot n_e \\
      *                         P\cdot \widetilde n_e,& P\cdot n_e \end{array}\right]
      * \left[\begin{array}{r} k' \cdot n_e \\ k' \cdot \widetilde n_e \end{array}\right]
      * \\
@@ -368,7 +285,7 @@ int Get_Event(int iEvt){
 
     /**  Define the lightcone vectors of q + P system
      * \f{align}{
-     * n_q^\mu &= \frac{1}{\sqrt{2(1+\delta_Q)} } \left[ 
+     * n_q^\mu &= \frac{1}{\sqrt{2(1+\delta_Q)} } \left[
      *            q^\mu \frac{M_{Ion}}{q\cdot P}
      *          + P^\mu \frac{\delta_Q}{M_{Ion}\left(1+\sqrt{1+\delta_Q}\right)}
      * \right], \qquad
@@ -388,6 +305,8 @@ int Get_Event(int iEvt){
     n4Tilde_q += tempN;
     Y4_q       = -sin(phi_e) * X4_e + cos(phi_e) * Y4_e;
 //    X4_q       = (LeviCivita4|n4_q%n4Tilde_q%Y4_q);
+    LeviCivita4vec(n4_q, n4Tilde_q, Y4_q, vec4out);
+    X4_q.SetPxPyPzE(-vec4out[1],-vec4out[2],-vec4out[3],vec4out[0]);
     if (iEvt%1000==0){
         printf("      n4_q*n4_q = %13.6e, n4_q*n4Tilde_q =%13.6e, X4_q*X4_q = %10.5f \n",
                n4_q*n4_q,n4_q*n4Tilde_q, X4_q*X4_q);
@@ -402,7 +321,6 @@ int Get_Event(int iEvt){
     }
     psf      *= TwoPi*(csPiPiMax-csPiPiMin);
     csPiPiCM  = csPiPiMin + (csPiPiMax-csPiPiMin)*ran3.Rndm();
-    // csPiPiCM  = 1.0;
     phiPiPiCM = TwoPi*ran3.Rndm();
     //  Boost basis vectors, rather than physics vectors
     //  Boost basis 4-vectors from Detector Frame to gamma* + p CM frame
@@ -521,10 +439,11 @@ int Get_Event(int iEvt){
     //P4pi2 = P4pipi - Prpi1;
 
     Y4_pipi = cos(phiPiPiCM)*Y4_q - sin(phiPiPiCM)*X4_q;
-    
-    
     //X4_pipi = (LeviCivita4|P4pi2%P4pi1%Y4_pipi) /
      //         sqrt( ((P4pi1*P4pi2)*(P4pi1*P4pi2) - (P4pi2*P4pi2)*(P4pi1*P4pi1)) );
+    LeviCivita4vec(P4pi2,P4pi1,Y4_pipi,vec4out);
+    X4_pipi.SetPxPyPzE(vec4out[1],vec4out[2],vec4out[3],vec4out[0]);
+    X4_pipi *= 1.0/sqrt( ((P4pi1*P4pi2)*(P4pi1*P4pi2) - (P4pi2*P4pi2)*(P4pi1*P4pi1)) );
     if (iEvt%1000==0){
         printf("Event %d:  (Longitudinal) Y4_pipi*P4pi1 =%13.6e, Y4_pipi*Prpi2 =%13.6e, P4pipi*Y4_pipi =%13.6e \n",
                iEvt, Y4_pipi*P4pi1, Y4_pipi*P4pi2, Y4_pipi*P4pipi);
@@ -565,7 +484,107 @@ int Get_Event(int iEvt){
     }
      */
     return iEvt;
+} //Get_Event
+
+/** @brief
+       * Construct a 4-vector contraction
+ *\f{align}{
+ {\tt vec4out}_{[0,1,2,3]} = {\tt vec4out}_\mu &= \epsilon_{\mu \nu \rho \sigma} {\tt vec1}^\nu {\tt vec2}^\rho {\tt vec3}^\sigma
+ \nonumber  \\
+ * \epsilon_{0123} &= 1
+ * \f}
+ */
+int LeviCivita4vec(TLorentzVector vec1, TLorentzVector vec2, TLorentzVector vec3, double *vec4out)
+{
+    int ndim = 4;
+    int mmod = ndim-1;
+    int yes  = 0;
+    int iii,jjj,kkk,lll;
+    double civita = 1.0;
+    double temp = 0.0;
+    for (int ii=0; ii<ndim; ii++) {
+        vec4out[ii] = 0.0;
+        iii = (ii+mmod)%ndim;
+        for (int jj=0; jj<ndim; jj++) {
+            if (jj!=ii){
+                jjj = (jj+mmod)%ndim;
+                for (int kk=0; kk<ndim; kk++) {
+                    if((kk!=jj)&&(kk!=ii)){
+                        kkk = (kk+mmod)%ndim;
+                        for (int ll=0; ll<ndim; ll++) {
+                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
+                                lll = (ll+mmod)%ndim;
+                                vec4out[ii] += civita*vec1[jjj]*vec2[kkk]*vec3[lll];
+                                /*
+                                printf("(ii,jj,kk,ll,jjj,kkk,lll)=(%2d,%2d,%2d,%2d,%2d,%2d,%2d), civita = %5.2f \n",ii,jj,kk,ll,jjj,kkk,lll,civita);
+                                 */
+                               // civita*=-1.0;
+                            } // ll!= {kk, jj, ii}
+                        } // ll for loop
+                        civita*=-1.0;
+                    } //kk!={jj, ii}
+                } // kk for loop
+                civita *= -1.0;
+            } //jj!=ii
+        } // jj for loop
+        //civita *= -1.0;
+    } // ii for loop
+    yes = 1;
+    return yes;
+} // LeviCivita4Vec
+
+
+
+double LeviCivitaScalar(TLorentzVector vec4_1, TLorentzVector vec4_2, TLorentzVector vec4_3, TLorentzVector vec4_4){
+/** @brief
+       * Construct a the scaler anti-symmetric contraction of four space-time vectors
+ *\f{align}{
+ *{\tt Scalar} &= \epsilon_{\mu \nu \rho \sigma} {\tt vec4_1}^\mu {\tt vec4_2}^\nu {\tt vec4_3}^\rho {\tt vec4_4}^\sigma\\
+ * \epsilon_{0123} &= 1. \qquad\text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1\\
+ * \f}
+ * Note from TLorentzVector documentation
+ The components of TLorentzVector can also accessed by index:
+  ~~~ {.cpp}
+    xx = v(0);       or     xx = v[0];
+    yy = v(1);              yy = v[1];
+    zz = v(2);              zz = v[2];
+    tt = v(3);              tt = v[3];
+  ~~~
+ */
+    double Scalar=0.0;
+    int ndim = 4;
+    int mmod = ndim-1;
+    double term;
+    double civita = 1.0;
+    int iii, jjj,kkk,lll;
+    for (int ii=0; ii<ndim; ii++) {
+        iii = (ii+mmod)%ndim;
+        for (int jj=0; jj<ndim; jj++) {
+            if (jj!=ii){
+                jjj = (jj+mmod)%ndim;
+                for (int kk=0; kk<ndim; kk++) {
+                    if((kk!=jj)&&(kk!=ii)){
+                        kkk = (kk+mmod)%ndim;
+                        for (int ll=0; ll<ndim; ll++) {
+
+                            if((ll!=kk)&&(ll!=jj)&&(ll!=ii)){
+                                lll = (ll+mmod)%ndim;
+                                Scalar += civita*vec4_1[iii]*vec4_2[jjj]*vec4_3[kkk]*vec4_4[lll];
+                                civita*=-1.0;
+                            } // ll!= {kk, jj, ii}
+                        } // ll for loop
+                        civita*=-1.0;
+                    } //kk!={jj, ii}
+                } // kk for loop
+                civita *= -1.0;
+            } //jj!=ii
+        } // jj for loop
+        civita *= -1.0;
+    } // ii for loop
+    // \text{In TLorentzVector Notation}\quad\epsilon_{xyzt} = -\epsilon_{0123} = -1
+    return Scalar;
 }
+
 
 
 #endif /* Deep_event_cxx */

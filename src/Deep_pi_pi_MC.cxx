@@ -1,5 +1,5 @@
 //
-//  Deep_pi_pi_MC.cpp
+//  Deep_pi_pi_MC.cxx
 //  
 //
 //  Created by Hyde, Charles E. on 5/15/2021.
@@ -42,14 +42,16 @@ int Deep_pi_pi_MC(){
         printf("Invalid initialization \n");
         return -1;
     }
-    n4_e0 = n4_e;
-    n4Tilde_e0 = n4Tilde_e;
-    X4_e0 = X4_e;
-    Y4_e0 = Y4_e;
     // call an event generation loop instead of this single
-    // EventLightCone();
-    return 1;
-} // main
+    int ievt = 0, mevts=0;
+    for (ievt=0; ievt<nEvents; ievt++) {
+        if(Get_Event(ievt)>=0)
+        {
+            mevts++;
+        }
+    }
+    return mevts;
+} // Deep_pi_pi_MC()
 
 /** @brief
  *  Read input file to initialize Monte-Carlo event generation.
@@ -150,18 +152,18 @@ int Init(char *inFile){
     if (csPiPiMin<-1.0){
         csPiPiMin=-1.0;
     }
-    
-
     printf("Generate %d MC events \n", nEvents);
     //  Setup up nominal beam light-cone vectors and transverse coordinates
     k4Beam = k4Beam0;
     P4Beam = P4Beam0;
+//    Y4_Det.SetPxPyPzE(0.0,1.0,0.0,0.0);
     EventLightCone();
     n4_e0      = n4_e;
     n4Tilde_e0 = n4Tilde_e;
     X4_e0      = X4_e;
     Y4_e0      = Y4_e;
     W2Threshold= pow(MIon+2.0*mPion,2);
+    int ievt;
     fclose(inF);
     return 1;
 }   //Init()
